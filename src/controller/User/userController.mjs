@@ -1,6 +1,6 @@
 import mockUsers from "../../Database/MockUser.mjs";
 import UUID from "../../utils/UUID.mjs";
-import {validationResult} from "express-validator";
+import {matchedData, validationResult} from "express-validator";
 
 export function createUser(req, res) {
     const errors = validationResult(req);
@@ -9,25 +9,23 @@ export function createUser(req, res) {
         return res.status(400).json({errors: errors.array()});
     }
 
-    const {name, email, password} = req;
+    const {name, email, password} = req.body;
     const foundUser = mockUsers.find(user => user.email === email);
 
     if (foundUser) {
         return res.status(409).json({message: "User already exists"});
     }
 
-    const newUser = {
-        id: UUID(),
-        name: name,
-        email: email,
-        password: password,
-    }
+    const newUser = {id: UUID(), name, email, password}
 
     mockUsers.push(newUser);
     return res.status(201).json(newUser);
 }
 
 export function getAllUser(req, res) {
+    const data = matchedData(req)
+    console.log(data)
+
     return res.status(200).json(mockUsers);
 }
 
@@ -37,7 +35,7 @@ export function getUserByName(req, res) {
         return res.status(400).json({errors: errors.array()});
     }
 
-    const {name} = req;
+    const {name} = req.body;
     const foundUser = mockUsers.filter(user => user.name === name);
 
     if (!foundUser || foundUser.length === 0) {

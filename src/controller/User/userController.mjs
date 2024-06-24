@@ -23,9 +23,6 @@ export function createUser(req, res) {
 }
 
 export function getAllUser(req, res) {
-    const data = matchedData(req)
-    console.log(data)
-
     return res.status(200).json(mockUsers);
 }
 

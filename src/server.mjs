@@ -2,7 +2,7 @@ import express from 'express';
 import {configDotenv} from "dotenv";
 
 import Logger from "./middleware/logger.mjs";
-import userRouter from "./router/userRoutes.mjs";
+import userRouter from "./routes/userRoutes.mjs";
 
 
 configDotenv(

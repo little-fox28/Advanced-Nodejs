@@ -23,9 +23,9 @@ app.use(cookieParser('MEOMEO'));
 app.use(Logger);
 
 // Router
-app.use('/api', authRouter)
+app.use('/api', authRouter);
 app.use('/api', Authenticate, userRouter);
-app.use('/api', Authenticate, productRouter)
+app.use('/api', Authenticate, productRouter);
 
 
 app.listen(PORT, () => {

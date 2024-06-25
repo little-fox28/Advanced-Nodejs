@@ -1,6 +1,6 @@
 import mockUsers from "../../Database/MockUser.mjs";
 import UUID from "../../utils/UUID.mjs";
-import {matchedData, validationResult} from "express-validator";
+import {validationResult} from "express-validator";
 
 export function createUser(req, res) {
     const errors = validationResult(req);

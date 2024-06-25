@@ -10,7 +10,7 @@ export function createUser(req, res) {
     }
 
     const {name, email, password} = req.body;
-    const foundUser = mockUsers.find(user => user.email === email);
+    const foundUser = FoundUser({email});
 
     if (foundUser) {
         return res.status(409).json({message: "User already exists"});
@@ -33,7 +33,7 @@ export function getUserByName(req, res) {
     }
 
     const {name} = req.body;
-    const foundUser = mockUsers.filter(user => user.name === name);
+    const foundUser = FoundUser({name});
 
     if (!foundUser || foundUser.length === 0) {
         return res.status(401).json({message: "User not found"});
@@ -76,3 +76,11 @@ export function deleteUser(req, res) {
 }
 
 
+// PRIVATE
+export function FoundUser({name = null, email = null, password = null} = {}) {
+    return mockUsers.find(user =>
+        (name !== null && user.name === name) ||
+        (email !== null && user.email === email) ||
+        (password !== null && user.password === password)
+    );
+}

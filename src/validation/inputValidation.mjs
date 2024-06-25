@@ -1,4 +1,4 @@
-import {body} from "express-validator";
+import {body, check} from "express-validator";
 
 export const NameValidation = [
     body('name')
@@ -27,3 +27,16 @@ export const UserValidation = [
         .isLength({min: 5})
         .withMessage('Password must be at least 5 characters long')
 ];
+
+export const PasswordValidation = [
+    body('email')
+        .notEmpty()
+        .withMessage('Email is required')
+        .isEmail()
+        .withMessage('Email is not valid'),
+    body('password')
+        .notEmpty()
+        .withMessage('Password is required')
+        .isLength({min: 5})
+        .withMessage('Password must be at least 5 characters long')
+]

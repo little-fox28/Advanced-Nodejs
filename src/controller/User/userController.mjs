@@ -1,6 +1,6 @@
 import {promises as fs} from 'fs';
 
-import mockUsers from "../../Database/MockUser.mjs";
+import mockUsers from "../../database/MockUser.mjs";
 import UUID from "../../utils/UUID.mjs";
 import {validationResult} from "express-validator";
 
@@ -91,7 +91,7 @@ export async function CreateUser(name, email, password) {
         const newUser = {id: UUID(), name, email, password};
         mockUsers.push(newUser)
 
-        await fs.writeFile('src/Database/data.json', JSON.stringify(mockUsers, null, 2), "utf8");
+        await fs.writeFile('src/database/data.json', JSON.stringify(mockUsers, null, 2), "utf8");
     } catch (error) {
         console.error('Error adding user:', error.message);
     }

@@ -1,4 +1,4 @@
-import mockUsers from "../Database/MockUser.mjs";
+import mockUsers from "../database/MockUser.mjs";
 
 const resolveIndexByUserID = (req, res, next) => {
     const {params: {id}} = req;

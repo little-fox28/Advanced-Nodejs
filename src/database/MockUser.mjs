@@ -4,7 +4,7 @@ let mockUser = [];
 
 async function fetchMockUser() {
     try {
-        const data = await fs.readFile('src/Database/data.json', 'utf8');
+        const data = await fs.readFile('src/database/data.json', 'utf8');
         mockUser = await JSON.parse(data)
     } catch (error) {
         console.error("Error fetching mock user:", error);

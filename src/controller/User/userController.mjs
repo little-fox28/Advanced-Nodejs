@@ -1,8 +1,10 @@
+import {promises as fs} from 'fs';
+
 import mockUsers from "../../Database/MockUser.mjs";
 import UUID from "../../utils/UUID.mjs";
 import {validationResult} from "express-validator";
 
-export function createUser(req, res) {
+export async function createUser(req, res) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -16,9 +18,8 @@ export function createUser(req, res) {
         return res.status(409).json({message: "User already exists"});
     }
 
-    const newUser = {id: UUID(), name, email, password}
+    const newUser = await CreateUser(name, email, password)
 
-    mockUsers.push(newUser);
     return res.status(201).json(newUser);
 }
 
@@ -76,11 +77,22 @@ export function deleteUser(req, res) {
 }
 
 
-// PRIVATE
 export function FoundUser({name = null, email = null, password = null} = {}) {
-    return mockUsers.find(user =>
-        (name !== null && user.name === name) ||
-        (email !== null && user.email === email) ||
-        (password !== null && user.password === password)
+    return mockUsers.find(
+        user =>
+            (name !== null && user.name === name) ||
+            (email !== null && user.email === email) ||
+            (password !== null && user.password === password)
     );
+}
+
+export async function CreateUser(name, email, password) {
+    try {
+        const newUser = {id: UUID(), name, email, password};
+        mockUsers.push(newUser)
+
+        await fs.writeFile('src/Database/data.json', JSON.stringify(mockUsers, null, 2), "utf8");
+    } catch (error) {
+        console.error('Error adding user:', error.message);
+    }
 }

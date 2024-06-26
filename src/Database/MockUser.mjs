@@ -1,13 +1,14 @@
-import * as fs from "node:fs";
+import {promises as fs} from "node:fs";
 
-let mockUser = null
+let mockUser = [];
 
 async function fetchMockUser() {
     try {
-        const data = fs.readFileSync('src/Database/data.json', 'utf8');
-        mockUser = JSON.parse(data)
+        const data = await fs.readFile('src/Database/data.json', 'utf8');
+        mockUser = await JSON.parse(data)
     } catch (error) {
-        console.log("Mock User ERROR:", error)
+        console.error("Error fetching mock user:", error);
+        return null;
     }
 }
 

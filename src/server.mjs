@@ -1,16 +1,13 @@
 import express from 'express';
-import {configDotenv} from "dotenv";
+import { configDotenv } from "dotenv";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 
 import Logger from "./middleware/logger.mjs";
-import userRouter from "./routes/userRoutes.mjs";
-import productRouter from "./routes/productRoutes.mjs";
-import authRouter from "./routes/authRoutes.mjs";
-import Authenticate from "./middleware/authentication.mjs";
+import router from './routes/router.mjs';
 
 configDotenv(
-    {path: '.env.production'}
+    { path: '.env.production' }
 );
 
 const app = express();
@@ -25,9 +22,7 @@ app.use(cookieParser('MEOMEO'));
 app.use(Logger);
 
 // Router
-app.use('/api', authRouter);
-app.use('/api', Authenticate, userRouter);
-app.use('/api', Authenticate, productRouter);
+app.use('/api', router);
 
 
 app.listen(PORT, () => {

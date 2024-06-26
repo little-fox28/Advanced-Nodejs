@@ -1,6 +1,7 @@
 import express from 'express';
 import {configDotenv} from "dotenv";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 
 import Logger from "./middleware/logger.mjs";
 import userRouter from "./routes/userRoutes.mjs";
@@ -18,6 +19,7 @@ const PORT = process.env.PORT || 3000;
 // Server settings
 app.use(express.json());
 app.use(cookieParser('MEOMEO'));
+// app.use(session());
 
 // Middleware
 app.use(Logger);

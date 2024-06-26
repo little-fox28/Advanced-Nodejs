@@ -1,5 +1,5 @@
 function UUID() {
-    return Math.random().toFixed(2) * 100;
+    return Math.random().toFixed(2) * 1000;
 }
 
 export default UUID;

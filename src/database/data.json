@@ -6004,5 +6004,23 @@
     "name": "John",
     "email": "john@gmail.com",
     "password": "#123@!"
+  },
+  {
+    "id": 57.99999999999999,
+    "name": "Thinh",
+    "email": "fox-positive@yahoo.zoo",
+    "password": "evitispo#28!$"
+  },
+  {
+    "id": "89MEO",
+    "name": "Thinh",
+    "email": "thinh@gmail.com",
+    "password": "hniht#@!"
+  },
+  {
+    "id": 960,
+    "name": "fox",
+    "email": "fox-positive28@yahoo.zoo",
+    "password": "evitispo#28!$"
   }
 ]

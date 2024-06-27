@@ -1,14 +1,8 @@
 [
   {
-    "id": 1,
-    "name": "Mahmud",
-    "email": "mgrimbaldeston0@ftc.gov",
-    "password": "$2a$04$v1UvN1c.rKoTrx.3O/Rm5OWl4KW3MPB2.hu4Y5UTM5TjWSG4C/mRu"
-  },
-  {
     "id": 2,
-    "name": "Wilie",
-    "email": "wlutas1@china.com.cn",
+    "name": "Bon",
+    "email": "Bon@gmail.com",
     "password": "$2a$04$m1IfmtEFjan66WE6nDX1iOff4qVCkhj93TjSyjJITrn6pDyWjyYBq"
   },
   {

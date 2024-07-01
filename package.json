@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.mjs"
   },
@@ -15,7 +16,9 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
-    "express-validator": "^7.1.0"
+    "express-validator": "^7.1.0",
+    "uuid": "^10.0.0",
+    "zsh": "^0.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"

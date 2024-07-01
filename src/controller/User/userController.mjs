@@ -12,7 +12,7 @@ export async function createUser(req, res) {
     }
 
     const {name, email, password} = req.body;
-    const foundUser = FoundUser({email});
+    const foundUser = FindUser({email});
 
     if (foundUser) {
         return res.status(409).json({message: "User already exists"});
@@ -24,6 +24,15 @@ export async function createUser(req, res) {
 }
 
 export function getAllUser(req, res) {
+    req.sessionStore.get(req.sessionID, (err, data) => {
+        if (err) {
+            console.log("[sessionStore: ]", err);
+            throw err
+        }
+
+        console.log("[sessionStore: ]", data)
+    })
+
     return res.status(200).json(mockUsers);
 }
 
@@ -34,7 +43,7 @@ export function getUserByName(req, res) {
     }
 
     const {name} = req.body;
-    const foundUser = FoundUser({name});
+    const foundUser = mockUsers.filter(user => user.name === name);
 
     if (!foundUser || foundUser.length === 0) {
         return res.status(401).json({message: "User not found"});
@@ -64,7 +73,7 @@ export async function updateUserByID(req, res) {
 
         await fs.writeFile('src/database/data.json', JSON.stringify(mockUsers));
 
-        return res.status(200).json(mockUsers);
+        return res.status(200).json(updatedUser);
     } catch (error) {
         return res.status(500).json({error: error.message});
     }
@@ -82,14 +91,14 @@ export async function deleteUser(req, res) {
 
         await fs.writeFile('src/database/data.json', JSON.stringify(mockUsers));
 
-        return res.status(200).json(deletedUser);
+        return res.status(200).json({message: "User deleted"});
     } catch (error) {
         return res.status(500).json({error: error.message});
     }
 
 }
 
-export function FoundUser({name = null, email = null, password = null} = {}) {
+export function FindUser({name = null, email = null, password = null} = {}) {
     return mockUsers.find(
         (user) =>
             (name !== null && user.name === name) ||

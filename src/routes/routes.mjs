@@ -7,7 +7,7 @@ import Authenticate from "../middleware/authentication.mjs";
 
 const router = new Router();
 
-router.use(authRouter);
+router.use('/auth',authRouter);
 router.use(Authenticate, userRouter);
 router.use(Authenticate, productRouter);
 

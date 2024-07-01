@@ -1,5 +1,7 @@
+import {v4 as uuid} from 'uuid';
+
 function UUID() {
-    return Math.random().toFixed(2) * 1000;
+    return uuid().replace(/\D/g, ''); // Remove non-numeric characters
 }
 
 export default UUID;

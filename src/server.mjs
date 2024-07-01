@@ -24,12 +24,6 @@ app.use(Logger);
 // Router
 app.use('/api', router);
 
-app.get('/', (req, res) => {
-    req.session.visited = true;
-    res.cookie("hello", "world", {maxAge: 30000, signed: true})
-    return res.status(200).json({message: "OK"});
-})
-
 app.listen(PORT, () => {
     console.log(`🚀 Server started on port ${PORT}`);
 });

@@ -9,7 +9,5 @@ const router = new Router();
 
 router.use('/auth',authRouter);
 router.use(Authenticate, userRouter);
-router.use(Authenticate, productRouter);
-
 
 export default router;

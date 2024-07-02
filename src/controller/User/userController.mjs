@@ -24,16 +24,13 @@ export async function createUser(req, res) {
 }
 
 export function getAllUser(req, res) {
-    req.sessionStore.get(req.sessionID, (err, data) => {
+    req.sessionStore.get(req.sessionID, (err) => {
         if (err) {
-            console.log("[sessionStore: ]", err);
             throw err
         }
-
-        console.log("[sessionStore: ]", data)
+        return res.status(200).json(mockUsers);
     })
 
-    return res.status(200).json(mockUsers);
 }
 
 export function getUserByName(req, res) {
@@ -99,12 +96,7 @@ export async function deleteUser(req, res) {
 }
 
 export function FindUser({name = null, email = null, password = null} = {}) {
-    return mockUsers.find(
-        (user) =>
-            (name !== null && user.name === name) ||
-            (email !== null && user.email === email) ||
-            (password !== null && user.password === password)
-    );
+    return mockUsers.find((user) => (name !== null && user.name === name) || (email !== null && user.email === email) || (password !== null && user.password === password));
 }
 
 export async function CreateUser(name, email, password) {
@@ -114,6 +106,6 @@ export async function CreateUser(name, email, password) {
 
         await fs.writeFile('src/database/data.json', JSON.stringify(mockUsers, null, 2), "utf8");
     } catch (error) {
-        console.error("Error adding user:", error.message);
+        throw new Error(`[CreateUser]: ${error.message}`);
     }
 }

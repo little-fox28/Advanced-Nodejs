@@ -18,6 +18,7 @@ function Login(req, res) {
     // res.cookie("loggedIn", "true", {maxAge: anHour, signed: true, secure: true, httpOnly: true})
 
     req.session.user = foundUser;
+    req.session.user.visited = true;
 
     return res.status(200).json("Logged in");
 }

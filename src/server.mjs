@@ -34,8 +34,3 @@ app.use('/api', router);
 app.listen(PORT, () => {
     console.log(`🚀 Server started on port ${PORT}`);
 });
-
-
-app.use('/', passport.authenticate('local'), (req, res) => {
-    return res.status(200).json({ message: 'Ok' });
-});

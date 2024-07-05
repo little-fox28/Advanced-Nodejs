@@ -5,7 +5,7 @@ import {
 } from "../controller/User/userController.mjs";
 
 import resolveIndexByUserID from "../middleware/resolveIndexByUserID.mjs";
-import {UserValidation, NameValidation} from "../validation/inputValidation.mjs";
+import {UserValidation, NameValidation} from "../middleware/validation.mjs";
 
 
 const userRouter = new Router();

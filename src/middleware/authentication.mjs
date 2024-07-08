@@ -1,8 +1,7 @@
 function Authenticate(req, res, next) {
-    // const isAuthenticate = req.signedCookies.loggedIn
-    const isAuthenticate = req.user
+    const isAuthenticated = req.isAuthenticated()
 
-    if (!isAuthenticate) {
+    if (!isAuthenticated) {
         return res.status(401).json({message: 'Unauthorized'});
     }
 

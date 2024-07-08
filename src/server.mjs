@@ -8,7 +8,6 @@ import mongoose from "mongoose";
 import Logger from "./middleware/logger.mjs";
 import router from "./routes/routes.mjs";
 import "./strategies/local-strategy.mjs";
-import {User} from "./models/User.mjs";
 
 configDotenv({ path: ".env.production" });
 

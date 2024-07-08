@@ -1,7 +1,7 @@
 import { Router } from "express";
 import Login from "../controller/Auth/login.mjs";
 import Register from "../controller/Auth/register.mjs";
-import { PasswordValidation, UserValidation } from "../validation/inputValidation.mjs";
+import { PasswordValidation, UserValidation } from "../middleware/validation.mjs";
 import Logout from "../controller/Auth/logout.mjs";
 import Authenticate from "../middleware/authentication.mjs";
 import passport from "passport";

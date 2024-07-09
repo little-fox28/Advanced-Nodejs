@@ -95,9 +95,8 @@ export async function deleteUser(req, res) {
 
 }
 
-export function FindUser({name = null, email = null, password = null} = {}) {
-    return mockUsers.find((user) => (name !== null && user.name === name) || (email !== null && user.email === email) || (password !== null && user.password === password));
-}
+export function FindUser(email) {
+    return mockUsers.find(user => user.email === email);}
 
 export async function CreateUser(name, email, password) {
     try {

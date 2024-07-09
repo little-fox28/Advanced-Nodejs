@@ -1,8 +1,8 @@
 function Logout(req, res) {
-    const isLoggedIn = req.isAuthenticated()
+    const isLoggedIn = req.isAuthenticated();
 
     if (!isLoggedIn) {
-        return res.status(404).json({message: "Not Logged in!"});
+        return res.status(404).json({ message: "Not Logged in!" });
     }
 
     req.logOut((error) => {

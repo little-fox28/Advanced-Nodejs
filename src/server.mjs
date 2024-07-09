@@ -35,13 +35,22 @@ app.use(passport.session());
 // Middleware
 app.use(Logger);
 
+// Authentication
+app.use(passport.initialize());
+app.use(passport.session())
+
 // Router
 app.use("/api", router);
 
-mongoose.connect(DATABASE).then(() => {
-    console.log("🎁 Database connected");
-
-    app.listen(PORT, () => {
-        console.log(`🚀 Server started on port: ${PORT}`);
-    });
+app.post("/", passport.authenticate('local'), (req, res) => {
+    return res.status(200).json({ message: "Logged in!" });
 });
+
+mongoose.connect(DATABASE)
+    .then(() => {
+        console.log("🎁 Database connected");
+
+        app.listen(PORT, () => {
+            console.log(`🚀 Server started on port: ${PORT}`);
+        });
+    });

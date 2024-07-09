@@ -1,36 +1,56 @@
-import express from 'express';
-import {configDotenv} from "dotenv";
+import express from "express";
+import { configDotenv } from "dotenv";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "passport";
+import mongoose from "mongoose";
 
 import Logger from "./middleware/logger.mjs";
-import router from './routes/routes.mjs';
-import "./strategies/local-strategy.mjs"
+import router from "./routes/routes.mjs";
+import "./strategies/local-strategy.mjs";
 
-configDotenv({path: '.env.production'});
+configDotenv({ path: ".env.production" });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const DATABASE = process.env.DATABASE;
 
 // Server settings
 app.use(express.json());
-app.use(cookieParser('MEOMEO'));
-app.use(session({
-    secret: 'MEOMEO', saveUninitialized: false, resave: false, cookie: {
-        maxAge: 60000 * 60,
-    }
-}));
+app.use(cookieParser("MEOMEO"));
+app.use(
+    session({
+        secret: "MEOMEO",
+        saveUninitialized: false,
+        resave: false,
+        cookie: {
+            maxAge: 60000 * 60,
+        },
+    })
+);
 
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 
 // Middleware
 app.use(Logger);
 
-// Router
-app.use('/api', router);
+// Authentication
+app.use(passport.initialize());
+app.use(passport.session())
 
-app.listen(PORT, () => {
-    console.log(`🚀 Server started on port ${PORT}`);
+// Router
+app.use("/api", router);
+
+app.post("/", passport.authenticate('local'), (req, res) => {
+    return res.status(200).json({ message: "Logged in!" });
 });
+
+mongoose.connect(DATABASE)
+    .then(() => {
+        console.log("🎁 Database connected");
+
+        app.listen(PORT, () => {
+            console.log(`🚀 Server started on port: ${PORT}`);
+        });
+    });

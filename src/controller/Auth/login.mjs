@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import { FindUser } from "../User/userController.mjs";
 import passport from "passport";
 
-async function Login(req, res, next) {
+function Login(req, res, next) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {

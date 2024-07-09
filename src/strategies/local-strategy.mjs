@@ -9,8 +9,6 @@ export default passport.use(
     new Strategy(
         { usernameField: "email", passwordField: "password" },
         (email, password, done) => {
-            console.log(`email: ${email}`);
-            console.log(`password: ${password}`);
             try {
                 const foundUser = FindUser(email);
                 if (!foundUser) {

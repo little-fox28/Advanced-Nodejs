@@ -1,7 +1,6 @@
 import { promises as fs } from "fs";
 
 import mockUsers from "../../database/MockUser.mjs";
-import UUID from "../../utils/UUID.mjs";
 import { validationResult } from "express-validator";
 
 export async function createUser(req, res) {
@@ -93,19 +92,4 @@ export async function deleteUser(req, res) {
         return res.status(500).json({ error: error.message });
     }
 
-}
-
-export function FindUser(email) {
-    return mockUsers.find(user => user.email === email);
-}
-
-export async function CreateUser(name, email, password) {
-    try {
-        const newUser = { id: UUID(), name, email, password };
-        mockUsers.push(newUser);
-
-        await fs.writeFile('src/database/data.json', JSON.stringify(mockUsers, null, 2), "utf8");
-    } catch (error) {
-        throw new Error(`[CreateUser]: ${error.message}`);
-    }
 }

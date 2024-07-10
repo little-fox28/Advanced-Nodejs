@@ -1,13 +1,13 @@
-import { validationResult } from "express-validator";
+import {validationResult} from "express-validator";
 
-import { FindUser } from "../User/userController.mjs";
+
 import passport from "passport";
 
 function Login(req, res, next) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({ message: errors.array() });
+        return res.status(400).json({message: errors.array()});
     }
 
     // // const anHour = 3.6e+6;
@@ -31,14 +31,14 @@ function Login(req, res, next) {
 
     passport.authenticate('local', function (err, user, info) {
         if (err) {
-            return res.status(401).json({ error: err });
+            return res.status(401).json({error: err});
         }
         if (!user) {
-            return res.status(401).json({ message: info ? info.message : 'Login failed' });
+            return res.status(401).json({message: info ? info.message : 'Login failed'});
         }
         req.logIn(user, function (err) {
             if (err) {
-                return res.status(401).json({ error: err });
+                return res.status(401).json({error: err});
             }
             return res.status(200).json("Logged in");
         });

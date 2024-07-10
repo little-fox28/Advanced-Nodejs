@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { v4 as uuidv4 } from 'uuid'; // Import uuidv4 from the 'uuid' package
+import { v4 as uuidv4 } from 'uuid';
 
 const userSchema = new mongoose.Schema({
     _id: {

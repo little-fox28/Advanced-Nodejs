@@ -10,12 +10,8 @@ import Logout from "../controller/Auth/logout.mjs";
 
 const authRouter = new Router();
 
-authRouter.post(
-    "/login",
-    EmailPasswordValidation,
-    Login
-);
-authRouter.get("/logout", Logout);
+authRouter.post("/login", EmailPasswordValidation, Login);
+authRouter.post("/logout", Logout);
 authRouter.post("/register", UserValidation, Register);
 
 export default authRouter;

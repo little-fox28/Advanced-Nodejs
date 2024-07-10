@@ -1,8 +1,8 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
 
-import { FindUser } from "../controller/User/userController.mjs";
 import mockUser from "../database/MockUser.mjs";
+import FindUserByEmail from "../utils/FindUserByEmail.mjs";
 
 // Register a new user
 export default passport.use(
@@ -10,7 +10,7 @@ export default passport.use(
         { usernameField: "email", passwordField: "password" },
         (email, password, done) => {
             try {
-                const foundUser = FindUser(email);
+                const foundUser = FindUserByEmail(email);
                 if (!foundUser) {
                     return done(null, false, { message: "User not found" });
                 }

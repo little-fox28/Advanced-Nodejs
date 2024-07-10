@@ -1,6 +1,6 @@
 import User from "../models/User.mjs";
 
-async function createUser(name, email, password) {
+async function CreateUser(name, email, password) {
     try {
         const newUser = new User({ name, email, password });
         await newUser.save();
@@ -11,4 +11,4 @@ async function createUser(name, email, password) {
     }
 }
 
-export default createUser;
+export default CreateUser;

@@ -1,25 +1,21 @@
-import {Router} from 'express';
+import { Router } from 'express';
 
 import {
-    createUser, deleteUser, getAllUser, getUserByID, getUserByName, updateUserByID
-} from "../controller/User/userController.mjs";
-
-import resolveIndexByUserID from "../middleware/resolveIndexByUserID.mjs";
-import {UserValidation, NameValidation} from "../middleware/validation.mjs";
-
+    getAllUsers,
+    // getUserByName,
+    // getUserByEmail,
+    // createUser,
+    // updateUser,
+    // deleteUser,
+} from "../controller/User/userController.mjs"
 
 const userRouter = new Router();
 
-userRouter.get('', getAllUser)
-
-userRouter.post('', UserValidation, createUser)
-
-userRouter.post('/by-name', NameValidation, getUserByName)
-
-userRouter.post('/:id', resolveIndexByUserID, getUserByID)
-
-userRouter.patch('/:id', resolveIndexByUserID, updateUserByID)
-
-userRouter.delete('/:id', resolveIndexByUserID, deleteUser)
+userRouter.get('/', getAllUsers);
+// userRouter.get('/name', getUserByName);
+// userRouter.get('/email', getUserByEmail);
+// userRouter.post('/', createUser);
+// userRouter.put('/email', updateUser);
+// userRouter.delete('/email', deleteUser);
 
 export default userRouter;

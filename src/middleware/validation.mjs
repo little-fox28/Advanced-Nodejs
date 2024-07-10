@@ -28,7 +28,7 @@ export const NameValidation = [
         .withMessage("String data type is required!")
 ]
 
-export const PasswordValidation = [
+export const EmailPasswordValidation = [
     body('email')
         .notEmpty()
         .withMessage('Email is required')

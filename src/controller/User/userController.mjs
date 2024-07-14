@@ -28,8 +28,8 @@ export function getAllUser(req, res) {
         if (err) {
             throw err
         }
-        return res.status(200).json(mockUsers);
     })
+        return res.status(200).json(mockUsers);
 
 }
 

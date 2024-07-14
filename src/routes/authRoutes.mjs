@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import Login from "../controller/Auth/login.mjs";
 import {
     EmailPasswordValidation,
     UserValidation,
 } from "../middleware/validation.mjs";
 import Register from "../controller/Auth/register.mjs";
 import Logout from "../controller/Auth/logout.mjs";
+import Login from "../controller/Auth/login.mjs";
 
 const authRouter = new Router();
 

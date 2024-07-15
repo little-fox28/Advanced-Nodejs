@@ -1,46 +1,26 @@
-import { validationResult } from "express-validator";
+import {validationResult} from "express-validator";
 
-import { FindUser } from "../User/userController.mjs";
 import passport from "passport";
+import "../../strategies/local-strategy.mjs"
 
 function Login(req, res, next) {
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
-        return res.status(400).json({ message: errors.array() });
+        return res.status(400).json({errors: errors.array()});
     }
 
-    // // const anHour = 3.6e+6;
-    // const { email, password } = req.body;
-    // const foundUser = FindUser(email);
-
-    // if (!foundUser || foundUser.password !== password) {
-    //     return res.status(401).json({ message: "User not found!" });
-    // }
-
-    // // res.cookie("loggedIn", "true", {maxAge: anHour, signed: true, secure: true, httpOnly: true})
-
-    // // req.session.user = { ...foundUser, visited: true };
-
-    // req.logIn(foundUser, function (error) {
-    //     if (error) {
-    //         return res.status(401).json({ error: error });
-    //     }
-    //     return res.status(200).json("Logged in");
-    // })
-
-    passport.authenticate('local', function (err, user, info) {
+    passport.authenticate('local', (err, user, info) => {
         if (err) {
-            return res.status(401).json({ error: err });
+            return next(err);
         }
         if (!user) {
-            return res.status(401).json({ message: info ? info.message : 'Login failed' });
+            return res.status(401).json({ message: info.message });
         }
-        req.logIn(user, function (err) {
+        req.logIn(user, (err) => {
             if (err) {
-                return res.status(401).json({ error: err });
+                return next(err);
             }
-            return res.status(200).json("Logged in");
+            return res.json({ message: 'Login successful'});
         });
     })(req, res, next);
 }

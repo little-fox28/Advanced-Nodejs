@@ -1,13 +1,13 @@
 function Logout(req, res) {
     if (!req.isAuthenticated()) {
-        return res.status(404).json({ message: "Not Logged in!" });
+        return res.status(401).json({message: "Not Logged in!"});
     }
 
-    req.logOut((error) => {
-        if (error) {
-            return res.status(401).json({ message: error });
+    return req.logout((err) => {
+        if (err) {
+            return res.status(500).json({message: 'Logout failed'});
         }
-        return res.status(200).json({ message: "Logged out!" });
+        return res.json({message: 'Logout successful'});
     });
 }
 

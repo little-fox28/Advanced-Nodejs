@@ -20,7 +20,7 @@ function Login(req, res, next) {
             if (err) {
                 return next(err);
             }
-            return res.json({ message: 'Login successful', user });
+            return res.json({ message: 'Login successful'});
         });
     })(req, res, next);
 }

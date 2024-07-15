@@ -1,5 +1,6 @@
 import passport from "passport";
 import {Strategy as LocalStrategy} from "passport-local";
+import bcrypt from "bcryptjs";
 
 import User from "../models/User.mjs";
 
@@ -7,9 +8,16 @@ import User from "../models/User.mjs";
 passport.use(new LocalStrategy({usernameField: "email", passwordField: "password"}, async (email, password, done) => {
     try {
         const foundUser = await User.findOne({email: email});
+        const verifiedPassword = bcrypt.compareSync(password, foundUser.password)
+
         if (!foundUser) {
             return done(null, false, {message: "User not found"});
         }
+
+        if (!verifiedPassword) {
+            return done(null, false, {message: "User incorrect password"});
+        }
+
         return done(null, foundUser);
     } catch (error) {
         return done(error, null);

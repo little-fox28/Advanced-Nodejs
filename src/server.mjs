@@ -19,7 +19,7 @@ const DATABASE = process.env.DATABASE;
 // Server settings
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-// app.use(express.json());
+app.use(express.json());
 app.use(cookieParser("MEOMEO"));
 app.use(
     session({

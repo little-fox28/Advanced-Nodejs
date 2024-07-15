@@ -1,5 +1,6 @@
 import {validationResult} from "express-validator";
 import User from "../../models/User.mjs";
+import CreateUser from "../../utils/CreateUser.mjs";
 
 async function Register(req, res) {
     const errors = validationResult(req);
@@ -17,8 +18,7 @@ async function Register(req, res) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        const newUser = new User({ ...body });
-        await newUser.save();
+        await CreateUser({body})
 
         return res.status(201).json({ message: "User created"});
 

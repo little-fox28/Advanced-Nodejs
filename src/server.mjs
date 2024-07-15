@@ -7,7 +7,8 @@ import mongoose from "mongoose";
 
 import Logger from "./middleware/logger.mjs";
 import router from "./routes/routes.mjs";
-import "./strategies/local-strategy.mjs";
+import "./strategies/local-strategy.mjs"
+import * as bodyParser from "express";
 
 configDotenv({ path: ".env.production" });
 
@@ -16,6 +17,8 @@ const PORT = process.env.PORT || 3000;
 const DATABASE = process.env.DATABASE;
 
 // Server settings
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser("MEOMEO"));
 app.use(
@@ -41,10 +44,6 @@ app.use(passport.session())
 
 // Router
 app.use("/api", router);
-
-app.post("/", passport.authenticate('local'), (req, res) => {
-    return res.status(200).json({ message: "Logged in!" });
-});
 
 mongoose.connect(DATABASE)
     .then(() => {

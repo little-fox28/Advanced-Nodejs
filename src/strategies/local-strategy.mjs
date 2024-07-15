@@ -5,7 +5,9 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.mjs";
 
 // Register a new user strategy
-passport.use(new LocalStrategy({usernameField: "email", passwordField: "password"}, async (email, password, done) => {
+export default passport.use(new LocalStrategy(
+    {usernameField: "email", passwordField: "password"},
+    async (email, password, done) => {
     try {
         const foundUser = await User.findOne({email: email});
         const verifiedPassword = bcrypt.compareSync(password, foundUser.password)
@@ -41,5 +43,3 @@ passport.deserializeUser(async (id, done) => {
         done(error, null);
     }
 });
-
-export default passport;

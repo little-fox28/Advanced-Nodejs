@@ -8,16 +8,17 @@ import {
     UpdateUserByEmailUserController,
     DeleteUserByEmailUserController
 } from "../controller/User/userController.mjs";
+import {EmailValidation, NameValidation, UserValidation} from "../middleware/validation.mjs";
 
 
 const userRouter = new Router();
 
-userRouter.post('/create', CreateUserController)
+userRouter.post('/create',UserValidation, CreateUserController)
 userRouter.get('/', GetAllUserController)
-userRouter.post('/email', GetUserByEmailController)
-userRouter.post('/name', GetUserByNameController)
-userRouter.patch('/', UpdateUserByEmailUserController)
-userRouter.delete('/', DeleteUserByEmailUserController)
+userRouter.post('/email',EmailValidation ,GetUserByEmailController)
+userRouter.post('/name',NameValidation ,GetUserByNameController)
+userRouter.patch('/',EmailValidation , UpdateUserByEmailUserController)
+userRouter.delete('/',EmailValidation ,DeleteUserByEmailUserController)
 
 
 export default userRouter;

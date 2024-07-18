@@ -1,4 +1,4 @@
-import {body, check} from "express-validator";
+import {body, check, validationResult} from "express-validator";
 
 export const UserValidation = [
     body('name')
@@ -15,7 +15,15 @@ export const UserValidation = [
         .notEmpty()
         .withMessage('Password is required')
         .isLength({min: 5})
-        .withMessage('Password must be at least 5 characters long')
+        .withMessage('Password must be at least 5 characters long'),
+
+        (req,res,next) => {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({errors});
+            }
+            next();
+        }
 ];
 
 export const EmailPasswordValidation = [
@@ -28,7 +36,15 @@ export const EmailPasswordValidation = [
         .notEmpty()
         .withMessage('Password is required')
         .isLength({min: 5})
-        .withMessage('Password must be at least 5 characters long')
+        .withMessage('Password must be at least 5 characters long'),
+
+    (req,res,next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors});
+        }
+        next();
+    }
 ];
 
 export const NameValidation = [
@@ -38,5 +54,29 @@ export const NameValidation = [
         .isLength({min: 3, max: 32})
         .withMessage("Username is sized from 3 characters to a maximum of size 32 characters")
         .isString()
-        .withMessage("String data type is required!")
-]
+        .withMessage("String data type is required!"),
+
+    (req,res,next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors});
+        }
+        next();
+    }
+];
+
+export const EmailValidation = [
+    body('email')
+        .notEmpty()
+        .withMessage('Email is required')
+        .isEmail()
+        .withMessage('Email is not valid'),
+    (req,res,next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors});
+        }
+        next();
+    }
+];
+

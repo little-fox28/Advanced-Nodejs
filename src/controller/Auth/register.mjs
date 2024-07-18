@@ -1,24 +1,30 @@
-import { validationResult } from "express-validator";
+import {validationResult} from "express-validator";
+import User from "../../models/User.mjs";
 import CreateUser from "../../utils/CreateUser.mjs";
-import FindUserByEmail from "../../utils/FindUserByEmail.mjs";
-
 
 async function Register(req, res) {
-    const error = validationResult(req);
-    const { name, email, password } = req.body;
-    const foundUser = FindUserByEmail(email)
+    const errors = validationResult(req);
 
-    if (!error.isEmpty()) {
-        return res.status(400).json({ message: error })
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
 
-    if (foundUser) {
-        return res.status(400).json({ message: "user already exists" })
+    const { body } = req;
+
+    try {
+        const foundUser = await User.findOne({ email: body.email });
+
+        if (foundUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        await CreateUser({body})
+
+        return res.status(201).json({ message: "User created"});
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
     }
-
-    await CreateUser(name, email, password)
-
-    res.status(201).json({ message: "User created" });
 }
 
 export default Register;

@@ -2,15 +2,9 @@ import User from "../models/User.mjs";
 
 async function FindUserByEmail(email) {
     try {
-        const user = await User.findOne({email: email}, null, null);
-
-        if (!user) {
-            return new Error("User not found");
-        }
-
-        return user;
+        return await User.findOne({email: email});
     } catch (error) {
-        return new Error("Error: Find User By Email");
+        return error;
     }
 }
 

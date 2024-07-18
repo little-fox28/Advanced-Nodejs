@@ -22,7 +22,7 @@ passport.use(new LocalStrategy(
 
         return done(null, foundUser);
     } catch (error) {
-        return done(null, null, {message: "User not found"});
+        return done(null, null, {error: error});
     }
 }));
 
@@ -40,7 +40,7 @@ passport.deserializeUser(async (id, done) => {
         }
         done(null, foundUser);
     } catch (error) {
-        done(error, null);
+        done(error.message, null);
     }
 });
 

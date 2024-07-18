@@ -22,7 +22,7 @@ export default passport.use(new LocalStrategy(
 
         return done(null, foundUser);
     } catch (error) {
-        return done(error, null);
+        return done(null, null, {message: "User not found"});
     }
 }));
 

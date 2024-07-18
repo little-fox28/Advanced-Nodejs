@@ -39,4 +39,13 @@ export const NameValidation = [
         .withMessage("Username is sized from 3 characters to a maximum of size 32 characters")
         .isString()
         .withMessage("String data type is required!")
-]
+];
+
+export const EmailValidation = [
+    body('email')
+        .notEmpty()
+        .withMessage('Email is required')
+        .isEmail()
+        .withMessage('Email is not valid'),
+];
+

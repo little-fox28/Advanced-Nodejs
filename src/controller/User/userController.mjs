@@ -4,13 +4,8 @@ import User from "../../models/User.mjs";
 
 
 export async function CreateUserController(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({message: errors});
-    }
-
-    try {
         const {body} = req;
+    try {
         const foundUser = await FindUserByEmail(body.email);
 
         if (foundUser) {
@@ -39,11 +34,6 @@ export async function GetAllUserController(req, res) {
 }
 
 export async function GetUserByEmailController(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({error: errors});
-    }
-
     try {
         const foundUser = await FindUserByEmail(req.body.email);
 
@@ -58,11 +48,6 @@ export async function GetUserByEmailController(req, res) {
 }
 
 export async function GetUserByNameController(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({error: errors});
-    }
-
     try {
         const foundUsers = await User.find({name: req.body.name});
 
@@ -77,13 +62,7 @@ export async function GetUserByNameController(req, res) {
 }
 
 export async function UpdateUserByEmailUserController(req, res) {
-    const errors = validationResult(req);
     const {email, newEmail,...updatedUser} = req.body;
-
-    if (!errors.isEmpty()) {
-        return res.status(400).json({error: errors});
-    }
-
     try {
         const foundUser = await FindUserByEmail(email);
 
@@ -108,13 +87,8 @@ export async function UpdateUserByEmailUserController(req, res) {
 }
 
 export async function DeleteUserByEmailUserController(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({error: errors});
-    }
-
-    try {
         const {email} = req.body;
+    try {
         const foundUser = await FindUserByEmail(email);
 
         if (!foundUser) {

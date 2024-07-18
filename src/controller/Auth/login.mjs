@@ -1,7 +1,6 @@
 import {validationResult} from "express-validator";
 
-import passport from "passport";
-import "../../strategies/local-strategy.mjs"
+import passport from "../../strategies/local-strategy.mjs";
 
 function Login(req, res, next) {
     const errors = validationResult(req);

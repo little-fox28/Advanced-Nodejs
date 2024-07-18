@@ -19,8 +19,6 @@ async function Register(req, res) {
             return res.status(500).json({ message: "User already exists" });
         }
 
-        console.log("PASS")
-
         const newUser =  await CreateUser({...body})
 
         if (!newUser) {

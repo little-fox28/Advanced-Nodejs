@@ -10,7 +10,7 @@ import Login from "../controller/Auth/login.mjs";
 
 const authRouter = new Router();
 
-authRouter.post("/login", EmailPasswordValidation, Login);
+authRouter.post("/login" ,EmailPasswordValidation, Login);
 authRouter.get("/logout", Logout);
 authRouter.post("/register", UserValidation, Register);
 

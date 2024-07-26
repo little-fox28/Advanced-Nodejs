@@ -4,11 +4,10 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "passport";
 import mongoose from "mongoose";
+import * as bodyParser from "express";
 
 import Logger from "./middleware/logger.mjs";
 import router from "./routes/routes.mjs";
-import "./strategies/local-strategy.mjs"
-import * as bodyParser from "express";
 
 configDotenv({ path: ".env.production" });
 
@@ -31,9 +30,6 @@ app.use(
         },
     })
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Middleware
 app.use(Logger);

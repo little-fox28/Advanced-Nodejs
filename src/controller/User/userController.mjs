@@ -1,6 +1,5 @@
-import {validationResult} from "express-validator";
-import {CreateUser, FindUserByEmail} from "./userService/services.mjs";
 import User from "../../models/User.mjs";
+import {CreateUser, FindUserByEmail} from "./userService/services.mjs";
 
 
 export async function CreateUserController(req, res) {

@@ -1,7 +1,7 @@
 import passport from "passport";
-import {Strategy} from "passport-discord";
 import {configDotenv} from "dotenv";
-import {FindUserByEmail} from "../controller/User/userService/services.mjs";
+import {Strategy} from "passport-discord";
+
 import {DiscordUser} from "../models/DiscordUser.mjs";
 
 configDotenv({ path: ".env.production"})

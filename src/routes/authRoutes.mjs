@@ -1,18 +1,18 @@
 import {Router} from "express";
+import passport from "../strategies/discord-strategy.mjs";
+// import "../strategies/discord-strategy.mjs"
 
 import {
-    EmailPasswordValidation,
-    UserValidation,
+    EmailPasswordValidation, UserValidation,
 } from "../middleware/validation.mjs";
 import Register from "../controller/Auth/register.mjs";
 import Logout from "../controller/Auth/logout.mjs";
 import Login from "../controller/Auth/login.mjs";
 import DiscordLogin from "../controller/Auth/discordLogin.mjs";
-import passport from "../strategies/discord-strategy.mjs";
 
 const authRouter = new Router();
 
-authRouter.post("/login" ,EmailPasswordValidation, Login);
+authRouter.post("/login", EmailPasswordValidation, Login);
 authRouter.get("/logout", Logout);
 authRouter.post("/register", UserValidation, Register);
 

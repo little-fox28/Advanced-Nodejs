@@ -8,7 +8,8 @@ import cookieParser from "cookie-parser";
 import * as bodyParser from "express";
 import MongoStore from "connect-mongo";
 import router from "./routes/routes.mjs";
-import "./strategies/local-strategy.mjs"
+// import "./strategies/local-strategy.mjs"
+import "./strategies/discord-strategy.mjs"
 import Logger from "./middleware/logger.mjs";
 
 configDotenv({ path: '.env.production' });

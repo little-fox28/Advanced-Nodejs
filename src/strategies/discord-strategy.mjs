@@ -1,39 +1,50 @@
 import passport from "passport";
 import {configDotenv} from "dotenv";
-import {Strategy} from "passport-discord";
+import {Strategy as DiscordStrategy} from "passport-discord";
 
 import {DiscordUser} from "../models/DiscordUser.mjs";
 
-configDotenv({ path: ".env.production"})
+configDotenv({path: ".env.production"})
 
-passport.use(new Strategy({
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+        const foundUser = await DiscordUser.findById(id);
+        return foundUser ? done(null, foundUser) : done(null, null);
+    } catch (error) {
+        return done(error.message, null);
+    }
+})
+
+export default passport.use(new DiscordStrategy({
     clientID: process.env.DISCORD_CLIENT_ID,
     clientSecret: process.env.DISCORD_CLIENT_SECRET,
     callbackURL: process.env.DISCORD_CALLBACK_URL,
     scope: ['identify', 'email', 'guilds']
-},async (accessToken, refreshToken, profile, done) => {
+}, async (accessToken, refreshToken, profile, done) => {
+    let foundUser;
 
-    const findUser = await DiscordUser.findOne({discordId: profile.id});
-
-    if (!findUser) {
-        const newUser = await DiscordUser.create({
-            discordId: profile.id,
-            username: profile.username,
-        });
-        return done(null, newUser);
+    try {
+        foundUser = await DiscordUser.findOne({discordId: profile.id})
+    } catch (error) {
+        return done(null, null, {error: error});
     }
 
-    return done(null,profile)
+    try {
+        if (!foundUser) {
+            const newUser = new DiscordUser({
+                discordId: profile.id,
+                username: profile.username,
+            })
+            await newUser.save()
+            return done(null, newUser);
+        }
+
+        return done(null, profile);
+    } catch (error) {
+        return done(null, null, {error: error});
+    }
 }));
-
-// Serialize user info into session
-passport.serializeUser((user, done) => {
-    done(null, user);
-});
-
-// Deserialize user info from session
-passport.deserializeUser((obj, done) => {
-    done(null, obj);
-});
-
-export  default passport;

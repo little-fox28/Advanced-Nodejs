@@ -1,6 +1,6 @@
 import {validationResult} from "express-validator";
-
-import passport from "../../strategies/local-strategy.mjs";
+import passport from "passport";
+import "../../strategies/local-strategy.mjs"
 
 function Login(req, res, next) {
     const errors = validationResult(req);
@@ -8,7 +8,7 @@ function Login(req, res, next) {
         return res.status(500).json({errors});
     }
 
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', (err, user) => {
         if (err) {
             return next(err);
         }

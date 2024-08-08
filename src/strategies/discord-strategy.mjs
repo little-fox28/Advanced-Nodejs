@@ -7,18 +7,14 @@ import {DiscordUser} from "../models/DiscordUser.mjs";
 configDotenv({path: ".env.production"})
 
 passport.serializeUser((user, done) => {
-    console.log("[serializeUser]: ", user)
     done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
-    console.log("[deserializeUser]: Called with id:", id);
     try {
         const foundUser = await DiscordUser.find({_id: id});
-        console.log("[deserializeUser]: Found user:", foundUser);
         return foundUser ? done(null, foundUser) : done(null, null);
     } catch (error) {
-        console.log("[deserializeUser]: Error:", error.message);
         return done(error.message, null);
     }
 });

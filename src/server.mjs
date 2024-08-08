@@ -5,7 +5,7 @@ import { configDotenv } from "dotenv";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
-import * as bodyParser from "express";
+import bodyParser from "body-parser";
 import MongoStore from "connect-mongo";
 import router from "./routes/routes.mjs";
 // import "./strategies/local-strategy.mjs"

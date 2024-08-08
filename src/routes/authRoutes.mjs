@@ -12,6 +12,13 @@ import DiscordLogin from "../controller/Auth/discordLogin.mjs";
 
 const authRouter = new Router();
 
+authRouter.get('/status', (req, res) => {
+    // console.log('User:', req.user);
+    // console.log('Session:', req.session);
+    // console.log('Session ID:', req.sessionID);
+    return req.user ? res.send(req.user) : res.sendStatus(401);
+});
+
 authRouter.post("/login", EmailPasswordValidation, Login);
 authRouter.get("/logout", Logout);
 authRouter.post("/register", UserValidation, Register);

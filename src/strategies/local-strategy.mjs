@@ -34,7 +34,7 @@ passport.serializeUser((user, done) => {
 // Get user from session
 passport.deserializeUser(async (id, done) => {
     try {
-        const foundUser = await User.findOne({_id: id});
+        const foundUser = await User.findById(id)
         if (!foundUser) {
             return done(new Error("User not found"), null);
         }

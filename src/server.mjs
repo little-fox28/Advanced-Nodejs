@@ -1,33 +1,34 @@
 import express from "express";
-import { configDotenv } from "dotenv";
-import cookieParser from "cookie-parser";
-import session from "express-session";
 import passport from "passport";
 import mongoose from "mongoose";
+import { configDotenv } from "dotenv";
+import session from "express-session";
+import cookieParser from "cookie-parser";
 
-import Logger from "./middleware/logger.mjs";
-import router from "./routes/routes.mjs";
-import "./strategies/local-strategy.mjs"
-import * as bodyParser from "express";
+import bodyParser from "body-parser";
 import MongoStore from "connect-mongo";
+import router from "./routes/routes.mjs";
+// import "./strategies/local-strategy.mjs"
+import "./strategies/discord-strategy.mjs"
+import Logger from "./middleware/logger.mjs";
 
 configDotenv({ path: '.env.production' });
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 const DATABASE = process.env.DATABASE;
+const PORT = process.env.PORT || 3000;
 
 // Server settings
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(cookieParser('MEOMEO'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(
     session({
+        resave: false,
         secret: 'MEOMEO',
         saveUninitialized: true,
-        resave: false,
         cookie: {
             maxAge: 60000 * 60,
         },
@@ -43,10 +44,6 @@ app.use(passport.session());
 // Middleware
 app.use(Logger);
 
-// Authentication
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Router
 app.use('/api', router);
 
@@ -58,6 +55,6 @@ mongoose.connect(DATABASE)
             console.log(`🚀 Server started on port: ${PORT}`);
         });
     })
-    .catch(err => {
-        console.error('Database connection error:', err);
+    .catch(error => {
+        console.error('Database connection error:', error);
     });

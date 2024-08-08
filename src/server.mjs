@@ -4,12 +4,11 @@ import mongoose from "mongoose";
 import { configDotenv } from "dotenv";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-
 import bodyParser from "body-parser";
 import MongoStore from "connect-mongo";
+
+import "./strategies/local-strategy.mjs"
 import router from "./routes/routes.mjs";
-// import "./strategies/local-strategy.mjs"
-import "./strategies/discord-strategy.mjs"
 import Logger from "./middleware/logger.mjs";
 
 configDotenv({ path: '.env.production' });

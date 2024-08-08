@@ -23,7 +23,6 @@
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.1",
     "passport": "^0.7.0",
-    "passport-discord": "^0.1.4",
     "passport-local": "^1.0.0",
     "uuid": "^10.0.0",
     "zsh": "^0.0.1"

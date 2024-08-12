@@ -1,6 +1,6 @@
 import {validationResult} from "express-validator";
 import User from "../../models/User.mjs";
-import {CreateUser} from "../User/userService/services.mjs";
+import {CreateNewUser} from "../User/userService/services.mjs";
 
 
 async function Register(req, res) {
@@ -19,7 +19,7 @@ async function Register(req, res) {
             return res.status(500).json({ message: "User already exists" });
         }
 
-        const newUser =  await CreateUser({...body})
+        const newUser =  await CreateNewUser({...body})
 
         if (!newUser) {
             return res.status(500).json({ message: "Cannot register user" });

@@ -1,6 +1,6 @@
 import User from "../../../models/User.mjs";
 
-async function CreateUser(body) {
+async function CreateNewUser(body) {
     try {
         const newUser = new User({...body});
         return await newUser.save()
@@ -21,4 +21,4 @@ async function FindUserByEmail(email) {
     }
 }
 
-export {CreateUser,FindUserByEmail}
+export {CreateNewUser,FindUserByEmail}

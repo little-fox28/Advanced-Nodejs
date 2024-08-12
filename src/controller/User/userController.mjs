@@ -1,67 +1,105 @@
 import User from "../../models/User.mjs";
-import {CreateUser, FindUserByEmail} from "./userService/services.mjs";
+import {CreateNewUser, FindUserByEmail} from "./userService/services.mjs";
+import {validationResult} from "express-validator";
 
 
-export async function CreateUserController(req, res) {
-        const {body} = req;
+export async function CreateUser(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+    const {body} = req;
     try {
         const foundUser = await FindUserByEmail(body.email);
 
         if (foundUser) {
-            return res.status(500).json({message: "User already exists"});
+            return res.sendStatus(500).json({message: "User already exists"});
         }
 
-        const newUser =  await CreateUser({...body});
+        const newUser = await CreateNewUser({...body});
 
-        if (!newUser){
-            return res.status(500).json({message: "Cannot creat user"});
+        if (!newUser) {
+            return res.sendStatus(500).json({message: "Cannot creat user"});
         }
 
         return res.status(200).json({message: "User created successfully"});
     } catch (error) {
-        return res.status(500).json({error: error.message});
+        return res.sendStatus(500);
     }
 }
 
-export async function GetAllUserController(req, res) {
+export async function GetAllUser(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
     try {
         const users = await User.find({});
         return res.status(200).json({users});
     } catch (error) {
-        return res.status(500).send(res.json({error: error.message}));
+        return res.sendStatus(500).send(res);
     }
 }
 
-export async function GetUserByEmailController(req, res) {
+export async function GetUserByID(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+    const userId = req.params.id;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
+        return res.status(200).json({user});
+    } catch (error) {
+        return res.sendStatus(500);
+    }
+};
+
+export async function GetUserByEmail(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
     try {
         const foundUser = await FindUserByEmail(req.body.email);
 
         if (!foundUser) {
-            return res.status(404).json({message: "Cannot found user"});
+            return res.sendStatus(404);
         }
 
         return res.status(200).json({user: foundUser});
     } catch (error) {
-        return res.status(500).json({error: error.message});
+        return res.sendStatus(500);
     }
 }
 
-export async function GetUserByNameController(req, res) {
+export async function GetUserByName(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
     try {
         const foundUsers = await User.find({name: req.body.name});
 
         if (!foundUsers) {
-            return res.status(500).json({message: "Cannot found user"});
+            return res.sendStatus(500).json({message: "Cannot found user"});
         }
 
         return res.status(200).json({users: foundUsers});
     } catch (error) {
-        return res.status(500).json({error: error.message});
+        return res.sendStatus(500);
     }
 }
 
-export async function UpdateUserByEmailUserController(req, res) {
-    const {email, newEmail,...updatedUser} = req.body;
+export async function UpdateUserByEmailUser(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+    const {email, newEmail, ...updatedUser} = req.body;
     try {
         const foundUser = await FindUserByEmail(email);
 
@@ -69,24 +107,28 @@ export async function UpdateUserByEmailUserController(req, res) {
             return res.status(404).json({message: "User not found"});
         }
 
-        if (newEmail){
+        if (newEmail) {
             updatedUser.email = newEmail;
         }
 
-        const userUpdated = await updateUserByEmail(email,updatedUser);
+        const userUpdated = await updateUserByEmail(email, updatedUser);
 
         if (!userUpdated) {
-            return res.status(500).json({message: "User cannot be updated"});
+            return res.sendStatus(500).json({message: "User cannot be updated"});
         }
 
         return res.status(200).json({message: "User updated"});
     } catch (error) {
-        return res.status(500).json({error: error.message});
+        return res.sendStatus(500);
     }
 }
 
-export async function DeleteUserByEmailUserController(req, res) {
-        const {email} = req.body;
+export async function DeleteUserByEmailUser(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+    const {email} = req.body;
     try {
         const foundUser = await FindUserByEmail(email);
 
@@ -97,22 +139,20 @@ export async function DeleteUserByEmailUserController(req, res) {
         const userDeleted = await User.deleteOne({email: email});
 
         if (!userDeleted) {
-            return res.status(500).json({message: "User deleted successfully"});
+            return res.sendStatus(500).json({message: "User deleted successfully"});
         }
 
         return res.status(200).json({message: "User deleted"});
     } catch (error) {
-        return res.status(500).json({error: error.message});
+        return res.sendStatus(500);
     }
 }
 
-async function updateUserByEmail(email,updatedData) {
+async function updateUserByEmail(email, updatedData) {
     try {
-        return await User.findOneAndUpdate(
-            { email },
-            {...updatedData, updatedAt: new Date() },
-            {returnOriginal: false, new: true }
-        );
+        return await User.findOneAndUpdate({email}, {...updatedData, updatedAt: new Date()}, {
+            returnOriginal: false, new: true
+        });
     } catch (error) {
         throw new Error('Error updating user');
     }
